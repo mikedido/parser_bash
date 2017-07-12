@@ -5,7 +5,7 @@ xhtml_header ()
 {
 	echo '<html>'
 	echo '<head>'
-	echo '<title>Rapport PMB</tilte>'
+	echo '<title>Rapport PMB</title>'
 	echo '<head>'
 	echo '<body>'
 }
@@ -18,10 +18,10 @@ xhtml_footer ()
 
 generate_xhtml_report () 
 {
-  local csv_report={1}
+  local csv_report=${1}
   xhtml_header
   echo '<ul>'
-    cut -f1 -d, "${csv_report}" | sort -u |\
+    cut -f1 -d, "${csv_report}" | sort -u | \
     while 
       read source_file 
     do
@@ -34,9 +34,9 @@ generate_xhtml_report ()
 xhtml_file () 
 {
    local source_file=${1}
-   local csv_report={2}
+   local csv_report=${2}
    
-   echo "<li>${source_file}"
+   #echo "<li>${source_file}"
    xhtml_infraction_table "${source_file}" "${csv_report}"
 }
 
@@ -47,8 +47,6 @@ xhtml_infraction_table ()
 
   echo '<table>'
   echo '<th>Numéro de ligne</th><th>Message</th><th>Extrait de code</th>'
-  grep -e "${filename}" "${csv_report}" | cut -d, -f2- | sed -e 's;^\([0-9]*\),\([^,]*\),\(.*\)$;<tr></td>1</td><td>2</td><td>3</td></tr>'
+  grep -e "${filename}" "${csv_report}" | cut -d, -f2- | sed -e 's;^\([0-9]*\),\([^,]*\),\(.*\)$;<tr><td>\1</td><td>\2</td><td>\3</td></tr>;'
   echo '</table>'
 }
-
-
