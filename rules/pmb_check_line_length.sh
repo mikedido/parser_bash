@@ -22,6 +22,3 @@ pmb_check_line_length ()
       fi
      done
 }
-
-
-#pmb_check_line_number ${1}
